@@ -1,33 +1,17 @@
-await axios.post(process.env.https://discord.com/api/webhooks/1498432904038977546/qAuY8nsSjQbEfZLWCpADNd7xhYBFEU7NA2ZRvecBGuzK1EEIUGw5iFa4P0tHVoa-9mFw, {
-  embeds: [
-    {
-      title: "🛒 عملية شراء جديدة!",
-      color: 0x00ff99,
-      fields: [
-        {
-          name: "👤 اسم العميل",
-          value: data.from_name || "غير معروف",
-          inline: true
-        },
-        {
-          name: "💰 المبلغ",
-          value: data.amount || "غير معروف",
-          inline: true
-        },
-        {
-          name: "📦 نوع العملية",
-          value: data.type || "Purchase",
-          inline: true
-        },
-        {
-          name: "💬 رسالة العميل",
-          value: data.message || "لا يوجد",
-        }
-      ],
-      footer: {
-        text: "Ko-fi Notifications System"
-      },
-      timestamp: new Date()
-    }
-  ]
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+app.post("/webhook", (req, res) => {
+  console.log("🔥 Ko-fi Event وصل:");
+  console.log(req.body);
+
+  res.send("OK");
 });
+
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
+app.listen(3000, () => console.log("Running"));
