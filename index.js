@@ -20,7 +20,7 @@ app.post("/kofi", async (req, res) => {
       embeds: [
         {
           title: "🛒 New Support!",
-          color: 7a0005,
+          color: #990000,
           fields: [
             { name: "👤 Name", value: name, inline: true },
             { name: "💰 Amount", value: amount, inline: true },
