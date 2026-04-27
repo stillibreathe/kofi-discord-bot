@@ -4,12 +4,13 @@ const app = express();
 app.use(express.json());
 
 app.post("/webhook", (req, res) => {
-  console.log("🔥 Event:", req.body);
+  console.log("🔥 Event received:");
+  console.log(req.body);
   res.send("OK");
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Running on port", PORT);
+  console.log("Running on", PORT);
 });
