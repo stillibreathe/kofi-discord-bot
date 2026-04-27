@@ -1,25 +1,33 @@
-const express = require("express");
-const axios = require("axios");
-
-const app = express();
-app.use(express.json());
-
-const DISCORD_WEBHOOK = "حط_رابط_الديسكورد";
-
-app.post("/kofi", async (req, res) => {
-  const data = JSON.parse(req.body.data);
-
-  const name = data.from_name;
-
-  await axios.post(DISCORD_WEBHOOK, {
-    content: `🛒 شراء جديد من: ${name}`
-  });
-
-  res.sendStatus(200);
+await axios.post(process.env.DISCORD_WEBHOOK, {
+  embeds: [
+    {
+      title: "🛒 عملية شراء جديدة!",
+      color: 0x00ff99,
+      fields: [
+        {
+          name: "👤 اسم العميل",
+          value: data.from_name || "غير معروف",
+          inline: true
+        },
+        {
+          name: "💰 المبلغ",
+          value: data.amount || "غير معروف",
+          inline: true
+        },
+        {
+          name: "📦 نوع العملية",
+          value: data.type || "Purchase",
+          inline: true
+        },
+        {
+          name: "💬 رسالة العميل",
+          value: data.message || "لا يوجد",
+        }
+      ],
+      footer: {
+        text: "Ko-fi Notifications System"
+      },
+      timestamp: new Date()
+    }
+  ]
 });
-
-app.get("/", (req, res) => {
-  res.send("Running");
-});
-
-app.listen(3000);
