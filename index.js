@@ -19,8 +19,8 @@ app.post("/kofi", async (req, res) => {
     await axios.post(DISCORD_WEBHOOK, {
       embeds: [
         {
-          title: "🛒 New Ko-fi Order!",
-          color: 0x00ff99,
+          title: "🛒 New Support!",
+          color: 7a0005,
           fields: [
             { name: "👤 Name", value: name, inline: true },
             { name: "💰 Amount", value: amount, inline: true },
