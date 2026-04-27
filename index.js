@@ -3,21 +3,25 @@ const app = express();
 
 app.use(express.json());
 
-// اختبار السيرفر
-app.get("/", (req, res) => {
-  res.send("Server is running");
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1498432904038977546/qAuY8nsSjQbEfZLWCpADNd7xhYBFEU7NA2ZRvecBGuzK1EEIUGw5iFa4P0tHVoa-9mFw;
+
+app.post("/webhook", async (req, res) => {
+  console.log("🔥 Event received:", req.body);
+
+  // إرسال إلى Discord
+  await fetch(DISCORD_WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: "💰 دعم جديد وصل!"
+    })
+  });
+
+  res.send("OK");
 });
 
-// Webhook
-app.post("/webhook", (req, res) => {
-  console.log("🔥 Event received:");
-  console.log(JSON.stringify(req.body, null, 2));
-
-  res.status(200).send("OK");
-});
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log("🚀 Running on port", PORT);
+  console.log("Running on", PORT);
 });
