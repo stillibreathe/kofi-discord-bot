@@ -4,43 +4,28 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-// 🔐 Discord Webhook من Render Environment Variables
-const DISCORD_WEBHOOK = process.env.https://discord.com/api/webhooks/1498432904038977546/qAuY8nsSjQbEfZLWCpADNd7xhYBFEU7NA2ZRvecBGuzK1EEIUGw5iFa4P0tHVoa-9mFw;
+// 🔐 حط Discord Webhook هنا
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1498432904038977546/qAuY8nsSjQbEfZLWCpADNd7xhYBFEU7NA2ZRvecBGuzK1EEIUGw5iFa4P0tHVoa-9mFw";
 
 app.post("/kofi", async (req, res) => {
   try {
-    const data = JSON.parse(req.body.data);
+    const data = req.body;
 
     const name = data.from_name || "Unknown";
     const amount = data.amount || "N/A";
     const type = data.type || "Purchase";
     const message = data.message || "No message";
 
-    await axios.post(https://discord.com/api/webhooks/1498432904038977546/qAuY8nsSjQbEfZLWCpADNd7xhYBFEU7NA2ZRvecBGuzK1EEIUGw5iFa4P0tHVoa-9mFw, {
+    await axios.post(DISCORD_WEBHOOK, {
       embeds: [
         {
           title: "🛒 New Ko-fi Order!",
           color: 0x00ff99,
           fields: [
-            {
-              name: "👤 Name",
-              value: name,
-              inline: true
-            },
-            {
-              name: "💰 Amount",
-              value: amount,
-              inline: true
-            },
-            {
-              name: "📦 Type",
-              value: type,
-              inline: true
-            },
-            {
-              name: "💬 Message",
-              value: message
-            }
+            { name: "👤 Name", value: name, inline: true },
+            { name: "💰 Amount", value: amount, inline: true },
+            { name: "📦 Type", value: type, inline: true },
+            { name: "💬 Message", value: message }
           ],
           footer: {
             text: "Ko-fi → Discord System"
@@ -53,13 +38,19 @@ app.post("/kofi", async (req, res) => {
     res.sendStatus(200);
 
   } catch (err) {
-    console.log(err);
+    console.log("ERROR:", err);
     res.sendStatus(500);
   }
 });
 
+// اختبار السيرفر
 app.get("/", (req, res) => {
   res.send("Bot is running 🚀");
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// PORT مهم لـ Render
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
